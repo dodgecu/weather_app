@@ -1,8 +1,14 @@
-class weatherApi {
-  constructor(city) {
+/**
+ *
+ * openweathermap.org api calls
+ *
+ */
+class Weather {
+  constructor(city, unit) {
     this.apiKey = "89d6c76fa5a8f6b08d8ec01b6ad1d355";
     this.base = "https://api.openweathermap.org/";
     this.city = city;
+    this.unit = unit;
   }
 
   // Get current weather data
@@ -11,8 +17,11 @@ class weatherApi {
         `${this.base}data/2.5/weather?q=${this.city}&APPID=${this.apiKey}`
       ),
       data = await init.json();
+    // Convert city into ID to more precise (accoring to API docs: https://openweathermap.org/current)
     const response = await fetch(
-      `${this.base}data/2.5/weather?id=${data.id}&APPID=${this.apiKey}`
+      `${this.base}data/2.5/weather?id=${data.id}&units=${this.unit}&APPID=${
+        this.apiKey
+      }`
     );
     return await response.json();
   }
@@ -42,6 +51,8 @@ class weatherApi {
         `${this.base}data/2.5/forecast?q=${this.city}&APPID=${this.apiKey}`
       ),
       data = await init.json();
+
+    // Convert city into ID to more precise (accoring to API docs: https://openweathermap.org/current)
     const response = await fetch(
       `${this.base}data/2.5/forecast?id=${data.city.id}&APPID=${this.apiKey}`
     );
@@ -60,6 +71,11 @@ class weatherApi {
       return await response.json();
     });
   }
+
+  // Change location
+  changeLocation(city) {
+    this.city = city;
+  }
 }
 
-export const api = new weatherApi("London");
+export const api = new Weather("London", "imperial");

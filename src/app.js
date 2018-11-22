@@ -1,5 +1,11 @@
 import { api } from "./api";
 
-//api.getByCoordinates().then(data => console.log(data));
-//api.getCurrentByID().then(data => console.log(data));
-api.getForecastByCoordinates().then(data => console.log(data));
+document.querySelector(".second").addEventListener("click", () => {
+  const city = document.getElementById("main").value;
+  api.changeLocation(city);
+  api.getCurrentByID().then(data => console.log(data));
+});
+
+const loadWeather = () => {
+  api.getCurrentByID().then(data => console.log(data));
+};
