@@ -5,8 +5,8 @@ class weatherApi {
     this.city = city;
   }
 
-  // Get Current Weather Data
-  async getByID() {
+  // Get current weather data
+  async getCurrentByID() {
     const init = await fetch(
         `${this.base}data/2.5/weather?q=${this.city}&APPID=${this.apiKey}`
       ),
@@ -17,8 +17,7 @@ class weatherApi {
     return await response.json();
   }
 
-  //Get weather by coordinates
-
+  //Get current weather by coordinates
   getCoordinates() {
     return new Promise((res, rej) => {
       navigator.geolocation.getCurrentPosition(res, rej);
@@ -37,7 +36,30 @@ class weatherApi {
     });
   }
 
-  // Get Forecast
+  // Get forecast
+  async getForecastByCity() {
+    const init = await fetch(
+        `${this.base}data/2.5/forecast?q=${this.city}&APPID=${this.apiKey}`
+      ),
+      data = await init.json();
+    const response = await fetch(
+      `${this.base}data/2.5/forecast?id=${data.city.id}&APPID=${this.apiKey}`
+    );
+    return await response.json();
+  }
+
+  // Get forecast by coordinates
+  async getForecastByCoordinates() {
+    return this.getCoordinates().then(async data => {
+      const response = await fetch(
+        `${this.base}data/2.5/forecast?lat=${data.coords.latitude}&lon=${
+          data.coords.longitude
+        }&APPID=${this.apiKey}
+      `
+      );
+      return await response.json();
+    });
+  }
 }
 
 export const api = new weatherApi("London");
