@@ -26,7 +26,7 @@ class Weather {
     return await response.json();
   }
 
-  //Get current weather by coordinates
+  // Get current weather by coordinates
   getCoordinates() {
     return new Promise((res, rej) => {
       navigator.geolocation.getCurrentPosition(res, rej);
@@ -38,7 +38,7 @@ class Weather {
       const response = await fetch(
         `${this.base}data/2.5/weather?lat=${data.coords.latitude}&lon=${
           data.coords.longitude
-        }&APPID=${this.apiKey}
+        }&units=${this.unit}&APPID=${this.apiKey}
       `
       );
       return await response.json();
@@ -54,7 +54,9 @@ class Weather {
 
     // Convert city into ID to more precise (accoring to API docs: https://openweathermap.org/current)
     const response = await fetch(
-      `${this.base}data/2.5/forecast?id=${data.city.id}&APPID=${this.apiKey}`
+      `${this.base}data/2.5/forecast?id=${data.city.id}&units=${
+        this.unit
+      }&APPID=${this.apiKey}`
     );
     return await response.json();
   }
@@ -65,7 +67,7 @@ class Weather {
       const response = await fetch(
         `${this.base}data/2.5/forecast?lat=${data.coords.latitude}&lon=${
           data.coords.longitude
-        }&APPID=${this.apiKey}
+        }&units=${this.unit}&APPID=${this.apiKey}
       `
       );
       return await response.json();
@@ -76,6 +78,11 @@ class Weather {
   changeLocation(city) {
     this.city = city;
   }
+
+  // Change location
+  changeUnit(unit) {
+    this.unit = unit;
+  }
 }
 
-export const api = new Weather("London", "imperial");
+export const api = new Weather("London", "metric");
