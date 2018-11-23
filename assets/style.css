@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css?family=Black+Han+Sans|Oswald");
+
+body {
+  font-family: "Black Han Sans", sans-serif;
+  font-family: "Oswald", sans-serif;
+  font-size: 24px;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: #1c5880;
+}
+.tagline {
+  font-size: 18px;
+}
+
+.currLocation i {
+  margin: 0 5px;
+}
+
+/** Responsive View Stylesheets **/
+@media screen and (max-device-width: 573px) {
+  .btnSubmit {
+    width: 100%;
+  }
+}
