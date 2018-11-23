@@ -2,13 +2,24 @@
  * Main APP js
  *
  */
-import { api } from "./api/api";
+import { api } from "./Api/Api";
+import { ui } from "./UI/UI";
 
+// Load event listeners
 document.addEventListener("DOMContentLoaded", loadWeather);
 document
   .getElementById("citySearch")
   .addEventListener("submit", getWeatherBySearch);
 document.querySelector("#btn").addEventListener("click", toggleState);
+document
+  .querySelector(".currLocation")
+  .addEventListener("click", changeGeoLocation);
+document
+  .getElementById("pills-home-tab")
+  .addEventListener("click", currTabWeather);
+document
+  .getElementById("pills-profile-tab")
+  .addEventListener("click", tabForecast);
 
 // Get weather from submit form
 function getWeatherBySearch(e) {
@@ -20,52 +31,47 @@ function getWeatherBySearch(e) {
     .then(res =>
       res.cod === "400" || res.cod === "404"
         ? console.log("City Not Found")
-        : console.log(res)
+        : ui.showForecast(res)
     )
     .catch(err => console.log(err));
 }
 
-// Load weather by current location. Set city to that location
-
-document.querySelector(".currLocation").addEventListener("click", () => {
+// Load weather by current geolocation. Set city id to that location
+function changeGeoLocation() {
   api
     .getByCoordinates()
     .then(res => {
       api.changeLocation(res.name);
-      console.log(res);
+      ui.showCurrent(res);
     })
     .catch(err => console.error(err));
-});
+}
 
 // Load current weather by tabs
-document.getElementById("pills-home-tab").addEventListener("click", () => {
+function currTabWeather() {
   api
     .getCurrentByID()
     .then(res =>
       res.cod === "400" || res.cod === "404"
         ? console.log("City Not Found")
-        : console.log(res)
+        : ui.showCurrent(res)
     )
     .catch(err => console.log(err));
-});
+}
 
 // Load forecast weather by tabs
-document.getElementById("pills-profile-tab").addEventListener("click", () => {
+function tabForecast() {
   api
     .getForecastByCity()
-    .then(res =>
-      res.cod === "400" || res.cod === "404"
-        ? console.log("City Not Found")
-        : console.log(res)
-    )
+    .then(res => ui.showForecast(res))
     .catch(err => console.log(err));
-});
+}
 
 // Default weather data (dom loaded)
 function loadWeather() {
   api
     .getCurrentByID()
-    .then(data => console.log(data))
+    .then(data => ui.showCurrent(data))
     .catch(err => console.error(err));
 }
 
