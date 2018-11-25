@@ -2,20 +2,30 @@
 
 body {
   font-size: 22px;
-  color: #fff;
+  color: #f8f9fa;
   background-color: #1e2023;
   font-family: "Ranga", cursive;
   font-family: "Lora", serif;
+  overflow-x: hidden;
 }
 
-.weather_logo {
+a {
+  color: #f8f9fa;
+}
+a:hover {
+  color: #c0c0c0;
 }
 .tagline {
   font-size: 18px;
 }
+header {
+  border-bottom: 1px solid #575757;
+}
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
-  background-color: #28b7e6;
+  background-color: #f8f9fa;
+  color: #000;
+  border-radius: 0;
 }
 
 .currLocation i {
@@ -27,33 +37,6 @@ body {
 }
 .currLocation:hover {
   color: #c0c0c0;
-}
-.sun_s_r .t_date {
-  display: none;
-}
-
-.city_err:after {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 10%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent #f8d7da transparent;
-}
-.city_err {
-  width: 160px;
-  background-color: #f8d7da;
-  color: #721c24;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  top: 40px;
-  font-size: 15px;
-  display: none;
 }
 
 .temp_wrapper {
@@ -117,6 +100,49 @@ body {
 .sec_desc {
   font-size: 15px;
   margin-left: 10px;
+}
+
+.last_updated {
+  font-size: 15px;
+}
+.table thead th,
+.table td,
+.table th {
+  text-align: center;
+}
+
+table .t_date,
+.details .t_date {
+  display: none;
+}
+.last_updated .t_date {
+  display: inline !important;
+}
+footer.page-footer {
+  border-top: 1px solid #575757;
+}
+.city_err:after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 10%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #f8f9fa transparent;
+}
+.city_err {
+  width: 160px;
+  background-color: #f8f9fa;
+  color: #000;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 40px;
+  font-size: 15px;
+  display: none;
 }
 /** Responsive View Stylesheets **/
 @media screen and (max-device-width: 573px) {

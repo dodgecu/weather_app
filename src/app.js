@@ -21,6 +21,22 @@ document
   .getElementById("pills-profile-tab")
   .addEventListener("click", tabForecast);
 
+// Load current weather by tabs
+function currTabWeather() {
+  api
+    .getCurrentByID()
+    .then(res => ui.showCurrent(res))
+    .catch(err => console.log(err));
+}
+
+// Load forecast weather by tabs
+function tabForecast() {
+  api
+    .getForecastByCity()
+    .then(res => ui.showForecast(res))
+    .catch(err => console.log(err));
+}
+
 // Get weather from submit form
 function getWeatherBySearch(e) {
   e.preventDefault();
@@ -29,11 +45,11 @@ function getWeatherBySearch(e) {
     api.changeLocation(city);
     api
       .getCurrentByID()
-      .then(res =>
+      .then(res => {
         res.cod === "400" || res.cod === "404"
-          ? ui.popErrs() //console.log("City Not Found")
-          : ui.showCurrent(res)
-      )
+          ? ui.popErrs()
+          : ui.showCurrent(res);
+      })
       .catch(err => console.log(err));
   } else {
     ui.popErrs();
@@ -49,26 +65,6 @@ function changeGeoLocation() {
       ui.showCurrent(res);
     })
     .catch(err => console.error(err));
-}
-
-// Load current weather by tabs
-function currTabWeather() {
-  api
-    .getCurrentByID()
-    .then(res =>
-      res.cod === "400" || res.cod === "404"
-        ? console.log("City Not Found")
-        : ui.showCurrent(res)
-    )
-    .catch(err => console.log(err));
-}
-
-// Load forecast weather by tabs
-function tabForecast() {
-  api
-    .getForecastByCity()
-    .then(res => ui.showForecast(res))
-    .catch(err => console.log(err));
 }
 
 // Default weather data (dom loaded)

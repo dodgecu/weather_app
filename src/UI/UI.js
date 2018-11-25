@@ -4,8 +4,9 @@ class UI {
   constructor() {
     this.city = document.querySelector(".city");
     this.icon = document.querySelector(".icon_desc");
-    this.secData = document.querySelector(".sec_data");
+    this.sec_data = document.querySelector(".sec_data");
     this.main_temp = document.querySelector(".temp_wrapper");
+    this.details = document.querySelector(".details .table tbody");
   }
 
   unitSign() {
@@ -29,7 +30,7 @@ class UI {
         this.icon.innerHTML = `<img src='//openweathermap.org/img/w/${
           item.icon
         }.png'>`;
-        this.secData.innerHTML = `<span class="main_desc">${
+        this.sec_data.innerHTML = `<span class="main_desc">${
           item.main
         }</span> / <span class="sec_desc">${item.description}</span>`;
       });
@@ -43,46 +44,80 @@ class UI {
         item.main.temp
       )}</div> <span class="main_temp_unit">${this.unitSign()[1]}</span>
       <div class="temp_details">
-      <span class="max_temp">${
+      <span class="max_temp">${Math.floor(
         item.main.temp_max
-      }<span class="main_temp_unit">${
+      )}<span class="main_temp_unit">${
         this.unitSign()[1]
-      }</span></span> <span class="min_temp">${
+      }</span></span> <span class="min_temp">${Math.floor(
         item.main.temp_min
-      }<span class="main_temp_unit">${this.unitSign()[1]}</span></span>  
+      )}<span class="main_temp_unit">${this.unitSign()[1]}</span></span>  
       </div>
     `;
-      this.secData.innerHTML += `<i class="fa fa-tint"></i>${
+      this.sec_data.innerHTML += `<i class="fa fa-tint"></i>${
         item.main.humidity
       }%`;
-
-      /* this.main.innerHTML = `Updated: ${this.timeStamp(
-        item.dt
-      )} <hr />Temperature: ${Math.floor(item.main.temp)} ${
-        this.unitSign()[1]
-      }  <hr /> Max: ${item.main.temp_max}${this.unitSign()[1]} Min: ${
-        item.main.temp_min
-      } ${this.unitSign()[1]}  <hr /> Humidity: ${
-        item.main.humidity
-      }%  <hr /> Pressure: ${item.main.pressure}hPa,  <hr /> Wind Direction: ${
-        item.wind.deg
-      }, Wind Speed: ${item.wind.speed} ${
-        this.unitSign()[0]
-      } <hr /><div class="sun_s_r"> Sunset: ${this.timeStamp(
-        item.sys.sunset
-      )}, Sunrise: ${this.timeStamp(item.sys.sunrise)}</div>`;
-      this.city.innerHTML = `${item.name}, ${item.sys.country}`;*/
+      this.details.innerHTML = `
+        <tr>
+          <th scope="row">Clouds:</th>
+          <td>${item.clouds.all}%</td>
+        </tr>
+        <tr>
+          <th scope="row">Pressure:</th>
+          <td>${item.main.pressure}hPa</td>
+        </tr>
+        <tr>
+          <th scope="row">Wind Direction:</th>
+          <td>${item.wind.deg}</td>
+        </tr>
+        <tr>
+          <th scope="row">Wind Speed:</th>
+          <td>${item.wind.speed} ${this.unitSign()[0]}</td>
+        </tr>
+        <tr>
+        <th scope="row">Sunset:</th>
+        <td>${this.timeStamp(item.sys.sunset)}</td>
+      </tr>
+      <tr>
+        <th scope="row">Sunrise:</th>
+        <td> ${this.timeStamp(item.sys.sunrise)}</td>
+      </tr>
+    <div class="last_updated">Last updated: ${this.timeStamp(item.dt)}</div>`;
     });
-    console.log(objData);
   }
 
   showForecast(data) {
     // Wrap json up in array. No need to encapsulate each object entry in array (Object.entries method) Not sure if this is a correct way to do this.
     const objData = [data];
-    this.main.innerHTML = "";
+
+    // Clear the page from current weather data
     this.icon.innerHTML = "";
-    this.description.innerHTML = "";
-    console.log(objData);
+    this.details.innerHTML = "";
+
+    // Add titles and city/country
+    this.main_temp.innerHTML = `5 Day`;
+    this.sec_data.innerHTML = `3 Hour Forecast`;
+    objData.map(item => {
+      this.city.innerHTML = `${item.city.name}, ${item.city.country}`;
+    });
+
+    // Get hourly list
+
+    const dataList = objData.map(el => el.list);
+    dataList.forEach(arr => {
+      arr.forEach((item, i, self) => {
+        console.log(item);
+        this.details.innerHTML += `<tr>
+        <th scope="row">${this.timeStamp(item.dt)} ${item.weather.map(
+          i => i.description
+        )}</th>
+        <td>clounds: ${item.clouds.all}%, wind speed: ${item.wind.speed}${
+          this.unitSign()[0]
+        }, ${Math.floor(item.main.temp)}${this.unitSign()[1]}, ${
+          item.main.humidity
+        }%, ${Math.floor(item.main.pressure)}hPa</td>
+      </tr>`;
+      });
+    });
   }
 
   popErrs() {
