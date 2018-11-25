@@ -18,6 +18,10 @@ a:hover {
 .tagline {
   font-size: 18px;
 }
+
+i {
+  color: #28b7e6;
+}
 header {
   border-bottom: 1px solid #575757;
 }
@@ -28,6 +32,7 @@ header {
   border-radius: 0;
 }
 
+/**************************** Current Weather *********************/
 .currLocation i {
   margin: 0 5px;
 }
@@ -121,6 +126,30 @@ table .t_date,
 footer.page-footer {
   border-top: 1px solid #575757;
 }
+
+/**************************** End Current Weather/ Forecast *********************/
+
+.forecast_desc {
+  font-size: 18px;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.forecast_data {
+  display: flex;
+  justify-content: space-around;
+}
+
+.forcast_temp {
+  font-size: 30px;
+  color: #28b7e6;
+  position: relative;
+  left: 25px;
+}
+.forecast_unit {
+  font-size: 15px;
+}
+
 .city_err:after {
   content: "";
   position: absolute;
