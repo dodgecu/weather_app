@@ -1,22 +1,123 @@
-@import url("https://fonts.googleapis.com/css?family=Black+Han+Sans|Oswald");
+@import url("https://fonts.googleapis.com/css?family=Lora|Ranga");
 
 body {
-  font-family: "Black Han Sans", sans-serif;
-  font-family: "Oswald", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
+  color: #fff;
+  background-color: #1e2023;
+  font-family: "Ranga", cursive;
+  font-family: "Lora", serif;
 }
-.nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
-  background-color: #1c5880;
+
+.weather_logo {
 }
 .tagline {
   font-size: 18px;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: #28b7e6;
 }
 
 .currLocation i {
   margin: 0 5px;
 }
 
+.currLocation {
+  color: #f8f9fa;
+}
+.currLocation:hover {
+  color: #c0c0c0;
+}
+.sun_s_r .t_date {
+  display: none;
+}
+
+.city_err:after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 10%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #f8d7da transparent;
+}
+.city_err {
+  width: 160px;
+  background-color: #f8d7da;
+  color: #721c24;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 40px;
+  font-size: 15px;
+  display: none;
+}
+
+.temp_wrapper {
+  display: inherit;
+  border-bottom: 1px solid #484848;
+  padding-bottom: 15px;
+}
+.main_temp {
+  font-size: 95px;
+  line-height: 65px;
+  text-align: left;
+  color: #28b7e6;
+}
+.main_temp_unit {
+  font-size: 14px !important;
+}
+.main_data {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #333;
+  border-top: 1px solid #575757;
+}
+
+.temp_details {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin: 0 50px;
+}
+.max_temp,
+.min_temp {
+  font-size: 35px;
+  margin: 0 10px;
+}
+
+.max_temp {
+  border-right: 1px solid #fff;
+  padding-right: 15px;
+  color: #f8f9fa;
+}
+
+.min_temp {
+  color: #8a8a8a;
+}
+
+.sec_data {
+  background-color: #333;
+  border-bottom: 1px solid #575757;
+  display: flex;
+  justify-content: center;
+}
+.main_desc {
+  font-size: 25px;
+  margin-right: 10px;
+}
+.sec_data .fa.fa-tint {
+  color: #28b7e6;
+  margin: 5px 10px;
+}
+.sec_desc {
+  font-size: 15px;
+  margin-left: 10px;
+}
 /** Responsive View Stylesheets **/
 @media screen and (max-device-width: 573px) {
   .btnSubmit {

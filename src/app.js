@@ -25,15 +25,19 @@ document
 function getWeatherBySearch(e) {
   e.preventDefault();
   const city = document.getElementById("mainSearch").value;
-  api.changeLocation(city);
-  api
-    .getCurrentByID()
-    .then(res =>
-      res.cod === "400" || res.cod === "404"
-        ? console.log("City Not Found")
-        : ui.showForecast(res)
-    )
-    .catch(err => console.log(err));
+  if (city !== "") {
+    api.changeLocation(city);
+    api
+      .getCurrentByID()
+      .then(res =>
+        res.cod === "400" || res.cod === "404"
+          ? ui.popErrs() //console.log("City Not Found")
+          : ui.showCurrent(res)
+      )
+      .catch(err => console.log(err));
+  } else {
+    ui.popErrs();
+  }
 }
 
 // Load weather by current geolocation. Set city id to that location
@@ -80,6 +84,7 @@ function toggleState(e) {
   const self = e.target;
   self.classList.toggle("metric");
   self.classList.toggle("imperial");
+
   if (self.classList.contains("metric")) {
     self.value = "°C";
     api.changeUnit("metric");

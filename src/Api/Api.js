@@ -17,7 +17,7 @@ class Weather {
         `${this.base}data/2.5/weather?q=${this.city}&APPID=${this.apiKey}`
       ),
       data = await init.json();
-    // Convert city into ID to more precise (accoring to API docs: https://openweathermap.org/current)
+    // Convert city into ID to get more accurate results (accoring to API docs: https://openweathermap.org/current)
     const response = await fetch(
       `${this.base}data/2.5/weather?id=${data.id}&units=${this.unit}&APPID=${
         this.apiKey
@@ -33,7 +33,7 @@ class Weather {
       ),
       data = await init.json();
 
-    // Convert city into ID to more precise (accoring to API docs: https://openweathermap.org/current)
+    // Convert city into ID to get more accurate results (accoring to API docs: https://openweathermap.org/current)
     const response = await fetch(
       `${this.base}data/2.5/forecast?id=${data.city.id}&units=${
         this.unit
