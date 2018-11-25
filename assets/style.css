@@ -117,9 +117,11 @@ header {
 }
 
 table .t_date,
-.details .t_date {
+.forecast_time .t_date  {
   display: none;
 }
+
+
 .last_updated .t_date {
   display: inline !important;
 }
@@ -143,11 +145,10 @@ footer.page-footer {
 .forcast_temp {
   font-size: 30px;
   color: #28b7e6;
-  position: relative;
-  left: 25px;
 }
 .forecast_unit {
   font-size: 15px;
+  color: #f8f9fa;
 }
 
 .city_err:after {
@@ -178,4 +179,26 @@ footer.page-footer {
   .btnSubmit {
     width: 100%;
   }
+}
+@media screen and (max-device-width: 992px) {
+  .forecast_data {
+    display: flex;
+    flex-direction: column;
+  }
+  .forecast_time span.t_time {
+    font-size: 18px;
+  }
+}
+
+@media screen and (min-device-width: 992px) {
+  .forecast_data {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .forcast_temp {
+    position: relative;
+    left: 25px;
+  }
+
 }

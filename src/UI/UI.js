@@ -125,8 +125,8 @@ class UI {
           <span class="forecast_desc">${item.weather.map(i => i.description)}</span>
         </th>
         <td class="forecast_data">
-          <span class="forcast_temp">${Math.floor(item.main.temp)}</span>
-          <span class="forecast_unit">${this.unitSign()[1]},</span>
+          <span class="forcast_temp">${Math.floor(item.main.temp)}<span class="forecast_unit">${this.unitSign()[1]},</span></span>
+          
           <span class="forecast_clouds"><i class="fa fa-soundcloud"></i> ${item.clouds.all}%,</span> 
           <span class="forecast_wind"><i class="fas fa-wind"></i> ${item.wind.speed}${this.unitSign()[0]},</span>
           <span class="forecast_humid"><i class="fa fa-tint"></i> ${item.main.humidity}%,</span>

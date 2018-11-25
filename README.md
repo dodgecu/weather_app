@@ -1,2 +1,2 @@
 # weather_widget
-Weather app
+Weather data supplied by [openweathermap.org]
