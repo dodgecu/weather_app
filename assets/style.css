@@ -25,11 +25,38 @@ i {
 header {
   border-bottom: 1px solid #575757;
 }
-.nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
+
+
+.tab-navs li {
+  list-style: none;
+  text-align: center;
   background-color: #f8f9fa;
   color: #000;
-  border-radius: 0;
+  cursor: pointer;
+  width: 350px;
+  max-width: 100%;
+}
+.tab-navs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+
+ul.tab-navs {
+  padding-inline-start: 0 !important;
+}
+.nav-tab.tab-one:hover, .nav-tab.tab-two {
+  transition: 0.5s background-color, 0.5s color;
+}
+.nav-tab.tab-one:hover, .nav-tab.tab-two:hover {
+  background-color: #32383e !important;
+  color: #f8f9fa;
+}
+
+.tab-link {
+  display: block;
+  padding: 10px 20px;
 }
 
 /**************************** Current Weather *********************/
@@ -116,10 +143,7 @@ header {
   text-align: center;
 }
 
-table .t_date,
-.forecast_time .t_date  {
-  display: none;
-}
+
 
 
 .last_updated .t_date {
@@ -149,6 +173,8 @@ footer.page-footer {
 .forecast_unit {
   font-size: 15px;
   color: #f8f9fa;
+  position: relative;
+  bottom: 20px;
 }
 
 .city_err:after {

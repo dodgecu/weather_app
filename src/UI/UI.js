@@ -14,7 +14,7 @@ class UI {
    * 
    */
 
-  unitSign() {
+  unitSign(str) {
     if (api.unit === "imperial") return ["mi/h", "°F"];
     if (api.unit === "metric") return ["m/sec", "°C"];
   }
@@ -22,10 +22,18 @@ class UI {
   /**
    * Unix Timestamp
    * @param {number} mils 
+   * @param {boolean} dateTime 
+   * 
    */
 
-  timeStamp(mils) {
+  timeStamp(mils, dateTime) {
     const time = new Date(mils * 1000);
+    if (dateTime === true) {
+      return `<span class="t_date">${time.toDateString()}`;
+    }
+    else if (dateTime === false) {
+      return `<span class="t_time">${time.toLocaleTimeString()}`;
+    }
     return `<span class="t_date">${time.toDateString()}</span> <span class="t_time">${time.toLocaleTimeString()}</span>`;
   }
 
@@ -83,11 +91,11 @@ class UI {
         </tr>
         <tr>
         <th scope="row">Sunset:</th>
-        <td>${this.timeStamp(item.sys.sunset)}</td>
+        <td>${this.timeStamp(item.sys.sunset, false)}</td>
       </tr>
       <tr>
         <th scope="row">Sunrise:</th>
-        <td> ${this.timeStamp(item.sys.sunrise)}</td>
+        <td> ${this.timeStamp(item.sys.sunrise, false)}</td>
       </tr>
     <div class="last_updated">Last updated: ${this.timeStamp(item.dt)}</div>`;
     });
@@ -115,18 +123,17 @@ class UI {
 
     // Get hourly list
     const dataList = objData.map(el => el.list);
-    dataList.forEach(arr => {
+    dataList.forEach((arr, i, self) => {
       arr.forEach((item, i, self) => {
         const icon = item.weather.map(i => `<img src='//openweathermap.org/img/w/${i.icon}.png'>`);
         this.details.innerHTML += `<tr>
-        <th scope="row">
-          <span class="forecast_time">${this.timeStamp(item.dt)}</span> 
-          ${icon}
-          <span class="forecast_desc">${item.weather.map(i => i.description)}</span>
+        <th class="main-row" scope="row">
+        <span class="forecast_time">${i % 8 === 0 ? this.timeStamp(item.dt, true) : this.timeStamp(item.dt, false)}</span>
+        ${icon}
+        <span class="forecast_desc">${item.weather.map(i => i.description)}</span>
         </th>
         <td class="forecast_data">
-          <span class="forcast_temp">${Math.floor(item.main.temp)}<span class="forecast_unit">${this.unitSign()[1]},</span></span>
-          
+          <span class="forcast_temp">${Math.floor(item.main.temp)}<span class="forecast_unit">${this.unitSign()[1]}</span></span>
           <span class="forecast_clouds"><i class="fa fa-soundcloud"></i> ${item.clouds.all}%,</span> 
           <span class="forecast_wind"><i class="fas fa-wind"></i> ${item.wind.speed}${this.unitSign()[0]},</span>
           <span class="forecast_humid"><i class="fa fa-tint"></i> ${item.main.humidity}%,</span>
@@ -135,6 +142,7 @@ class UI {
       </tr>`;
       });
     });
+
   }
 
 

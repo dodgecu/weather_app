@@ -7,19 +7,11 @@ import { ui } from "./UI/UI";
 
 // Load event listeners
 document.addEventListener("DOMContentLoaded", loadWeather);
-document
-  .getElementById("citySearch")
-  .addEventListener("submit", getWeatherBySearch);
+document.getElementById("citySearch").addEventListener("submit", getWeatherBySearch);
 document.querySelector("#btn").addEventListener("click", toggleState);
-document
-  .querySelector(".currLocation")
-  .addEventListener("click", changeGeoLocation);
-document
-  .getElementById("pills-home-tab")
-  .addEventListener("click", currTabWeather);
-document
-  .getElementById("pills-profile-tab")
-  .addEventListener("click", tabForecast);
+document.querySelector(".currLocation").addEventListener("click", changeGeoLocation);
+document.querySelector(".link1").addEventListener("click", currTabWeather);
+document.querySelector(".link2").addEventListener("click", tabForecast);
 
 // Load current weather by tabs
 function currTabWeather() {
@@ -46,9 +38,7 @@ function getWeatherBySearch(e) {
     api
       .getCurrentByID()
       .then(res => {
-        res.cod === "400" || res.cod === "404"
-          ? ui.popErrs()
-          : ui.showCurrent(res);
+        res.cod === "400" || res.cod === "404" ? ui.popErrs() : ui.showCurrent(res);
       })
       .catch(err => console.log(err));
   } else {
