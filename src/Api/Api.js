@@ -16,13 +16,13 @@ class Weather {
 
 
   /**
-   * Seatch by type/like
+   * Search by %like param
    * 
    */
 
   async searchAccuracy() {
     const response = await fetch(
-      `${this.base}data/2.5/find?q=${this.city}&type=like&APPID=${this.apiKey}`
+      `${this.base}data/2.5/find?q=${this.city}&type=like&cnt=5&APPID=${this.apiKey}`
     );
     return await response.json();
   }
@@ -45,8 +45,7 @@ class Weather {
   /**
    * Get forecast
    * 
-  */
-
+   */
   async getForecastByCity() {
     const response = await fetch(
       `${this.base}data/2.5/forecast?id=${this.id}&units=${
@@ -60,7 +59,6 @@ class Weather {
    * Get current weather by coordinates
    * 
    */
-
   getCoordinates() {
     return new Promise((res, rej) => {
       navigator.geolocation.getCurrentPosition(res, rej);
@@ -93,7 +91,6 @@ class Weather {
    * 
    * @param { string } unit 
    */
-
   changeUnit(unit) {
     this.unit = unit;
   }

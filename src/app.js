@@ -12,15 +12,13 @@ document.querySelector("#btn").addEventListener("click", toggleState);
 document.querySelector(".currLocation").addEventListener("click", changeGeoLocation);
 document.querySelector(".link1").addEventListener("click", currTabWeather);
 document.querySelector(".link2").addEventListener("click", tabForecast);
-document.getElementById("mainSearch").addEventListener('keyup', accurateSeearch);
+document.getElementById("mainSearch").addEventListener('keyup', accurateSearch);
 
 
 // Get accurate search results/ pass them to main search
-function accurateSeearch(e) {
+function accurateSearch() {
   const city = document.getElementById("mainSearch").value;
-  console.log(city);
   api.changeLocation(city, api.id);
-  e.preventDefault();
   api.searchAccuracy()
     .then(res => ui.searchAccurate(res))
     .catch(err => console.error(err))
@@ -47,14 +45,13 @@ function tabForecast() {
 function getWeatherBySearch(e) {
   e.preventDefault();
   const inputData = document.getElementById("mainSearch").value;
-  const cityId = inputData.split(' ').filter((item, i, self) => item === self[self.length - 1]);
+  const cityId = inputData.split(' ').filter((item, _, self) => item === self[self.length - 1]);
   const setId = parseInt(cityId);
   if (inputData !== "") {
     api.changeLocation(api.city, setId);
     api
       .getCurrentByID()
       .then(res => {
-        console.log(res);
         res.cod === "400" || res.cod === "404" ? ui.popErrs() : ui.showCurrent(res);
       })
       .catch(err => console.log(err));
