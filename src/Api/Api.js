@@ -6,28 +6,36 @@
  */
 
 class Weather {
-  constructor(city, unit) {
+  constructor(city, unit, id) {
     this.apiKey = "89d6c76fa5a8f6b08d8ec01b6ad1d355";
     this.base = "https://api.openweathermap.org/";
     this.city = city;
     this.unit = unit;
+    this.id = id;
   }
 
+
+  /**
+   * Seatch by type/like
+   * 
+   */
+
+  async searchAccuracy() {
+    const response = await fetch(
+      `${this.base}data/2.5/find?q=${this.city}&type=like&APPID=${this.apiKey}`
+    );
+    return await response.json();
+  }
 
 
   /**
    * Get current weather data
    *  
-  */
+   */
 
   async getCurrentByID() {
-    const init = await fetch(
-      `${this.base}data/2.5/weather?q=${this.city}&APPID=${this.apiKey}`
-    ),
-      data = await init.json();
-    // Convert city into ID to get more accurate results (accoring to API docs: https://openweathermap.org/current)
     const response = await fetch(
-      `${this.base}data/2.5/weather?id=${data.id}&units=${this.unit}&APPID=${
+      `${this.base}data/2.5/weather?id=${this.id}&units=${this.unit}&APPID=${
       this.apiKey
       }`
     );
@@ -40,14 +48,8 @@ class Weather {
   */
 
   async getForecastByCity() {
-    const init = await fetch(
-      `${this.base}data/2.5/forecast?q=${this.city}&APPID=${this.apiKey}`
-    ),
-      data = await init.json();
-
-    // Convert city into ID to get more accurate results (accoring to API docs: https://openweathermap.org/current)
     const response = await fetch(
-      `${this.base}data/2.5/forecast?id=${data.city.id}&units=${
+      `${this.base}data/2.5/forecast?id=${this.id}&units=${
       this.unit
       }&APPID=${this.apiKey}`
     );
@@ -71,7 +73,7 @@ class Weather {
         `${this.base}data/2.5/weather?lat=${data.coords.latitude}&lon=${
         data.coords.longitude
         }&units=${this.unit}&APPID=${this.apiKey}
-      `
+    `
       );
       return await response.json();
     });
@@ -79,11 +81,12 @@ class Weather {
 
   /**
    * 
-   * @param { string } city 
+   * @param {string} city 
+   * @param {number} id 
    */
-
-  changeLocation(city) {
+  changeLocation(city, id) {
     this.city = city;
+    this.id = id;
   }
 
   /**
@@ -96,4 +99,4 @@ class Weather {
   }
 }
 
-export const api = new Weather("London", "metric");
+export const api = new Weather("London", "metric", 2643743);

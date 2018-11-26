@@ -200,6 +200,30 @@ footer.page-footer {
   font-size: 15px;
   display: none;
 }
+
+/** Accurate Search**/
+ul.accurate_search.list-group {
+  display: none;
+}
+
+ul.accurate_search {
+  position: absolute;
+  z-index: 2;
+  top: 40px;
+  width: 250px;
+  /* background-color: #000 !important; */
+}
+.list-group-item-dark {
+  color: #fff;
+  background-color: #000;
+}
+li.list-group-item.list-group-item-dark {
+  font-size: 15px;
+}
+.list-group-item {
+  padding: .15rem 1.25rem;
+  cursor: pointer;
+}
 /** Responsive View Stylesheets **/
 @media screen and (max-device-width: 573px) {
   .btnSubmit {
@@ -228,3 +252,6 @@ footer.page-footer {
   }
 
 }
+
+
+

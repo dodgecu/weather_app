@@ -5,27 +5,29 @@ class UI {
     this.city = document.querySelector(".city");
     this.icon = document.querySelector(".icon_desc");
     this.sec_data = document.querySelector(".sec_data");
+    this.mainSearch = document.querySelector("#mainSearch");
     this.main_temp = document.querySelector(".temp_wrapper");
+    this.accSearch = document.querySelector('.accurate_search');
     this.details = document.querySelector(".details .table tbody");
   }
+
 
   /**
    * Get metric/imperial units
    * 
    */
-
   unitSign(str) {
     if (api.unit === "imperial") return ["mi/h", "°F"];
     if (api.unit === "metric") return ["m/sec", "°C"];
   }
 
+
   /**
    * Unix Timestamp
    * @param {number} mils 
-   * @param {boolean} dateTime 
+   * @param {boolean} dateTime (false - get only time, true - get only date)
    * 
    */
-
   timeStamp(mils, dateTime) {
     const time = new Date(mils * 1000);
     if (dateTime === true) {
@@ -39,12 +41,44 @@ class UI {
 
 
   /**
- * @param { object } data
- * 
- * Show current temp
- */
+   * 
+   * @param {json data} data 
+   */
+  searchAccurate(data) {
+    const resData = [data];
+    this.accSearch.style.display = "block";
+    resData.map(el => {
+      if (el.cod === "400") {
+        this.accSearch.innerHTML = `<li class="list-group-item list-group-item-dark">${el.message}</li>`
+        //setTimeout(() => this.accSearch.style.display = "none", 2000);
+      } else {
+        this.accSearch.innerHTML = '';
+        el.list.forEach(result => {
+          this.accSearch.innerHTML += `<li class="search_autocomplete list-group-item list-group-item-dark">${result.name}, ${result.sys.country}, ${result.id}</li>`
+          const elements = document.querySelectorAll('.search_autocomplete');
+          elements.forEach(item => {
+            item.addEventListener('mouseover', (e) => {
+              const self = e.target.innerHTML;
+              this.mainSearch.value = `${self}`
+            });
+            item.addEventListener('click', (e) => {
+              const self = e.target.innerHTML;
+              this.mainSearch.value = `${self}`
+              this.accSearch.style.display = "none";
+            });
+          });
+        });
+      }
+    });
+  }
 
 
+
+  /**
+   * @param {json data} data 
+   * 
+   * Show current temp
+   */
   showCurrent(data) {
     // Wrap json up in array. No need to encapsulate each object entry in array (Object.entries method) Not sure if this is a correct way to do this.
     const objData = [data];
@@ -102,12 +136,12 @@ class UI {
   }
 
 
+
   /**
-   * @param { object } data
+   * @param {json data} data 
    * 
    * Show weather forecast
    */
-
   showForecast(data) {
     // Wrap json up in array. No need to encapsulate each object entry in array (Object.entries method) Not sure if this is a correct way to do this.
     const objData = [data];
@@ -123,8 +157,8 @@ class UI {
 
     // Get hourly list
     const dataList = objData.map(el => el.list);
-    dataList.forEach((arr, i, self) => {
-      arr.forEach((item, i, self) => {
+    dataList.forEach(arr => {
+      arr.forEach((item, i) => {
         const icon = item.weather.map(i => `<img src='//openweathermap.org/img/w/${i.icon}.png'>`);
         this.details.innerHTML += `<tr>
         <th class="main-row" scope="row">
@@ -145,11 +179,10 @@ class UI {
 
   }
 
-
   /**
-   * Error popups
-   * 
-   */
+     * Error popups
+     * 
+     */
   popErrs() {
     const message = document.querySelector(".city_err");
     message.style.display = "block";

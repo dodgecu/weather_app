@@ -12,6 +12,20 @@ document.querySelector("#btn").addEventListener("click", toggleState);
 document.querySelector(".currLocation").addEventListener("click", changeGeoLocation);
 document.querySelector(".link1").addEventListener("click", currTabWeather);
 document.querySelector(".link2").addEventListener("click", tabForecast);
+document.getElementById("mainSearch").addEventListener('keyup', accurateSeearch);
+
+
+// Get accurate search results/ pass them to main search
+function accurateSeearch(e) {
+  const city = document.getElementById("mainSearch").value;
+  console.log(city);
+  api.changeLocation(city, api.id);
+  e.preventDefault();
+  api.searchAccuracy()
+    .then(res => ui.searchAccurate(res))
+    .catch(err => console.error(err))
+};
+
 
 // Load current weather by tabs
 function currTabWeather() {
@@ -32,12 +46,15 @@ function tabForecast() {
 // Get weather from submit form
 function getWeatherBySearch(e) {
   e.preventDefault();
-  const city = document.getElementById("mainSearch").value;
-  if (city !== "") {
-    api.changeLocation(city);
+  const inputData = document.getElementById("mainSearch").value;
+  const cityId = inputData.split(' ').filter((item, i, self) => item === self[self.length - 1]);
+  const setId = parseInt(cityId);
+  if (inputData !== "") {
+    api.changeLocation(api.city, setId);
     api
       .getCurrentByID()
       .then(res => {
+        console.log(res);
         res.cod === "400" || res.cod === "404" ? ui.popErrs() : ui.showCurrent(res);
       })
       .catch(err => console.log(err));
@@ -51,7 +68,7 @@ function changeGeoLocation() {
   api
     .getByCoordinates()
     .then(res => {
-      api.changeLocation(res.name);
+      api.changeLocation(res.name, res.id);
       ui.showCurrent(res);
     })
     .catch(err => console.error(err));
@@ -80,3 +97,4 @@ function toggleState(e) {
     api.changeUnit("imperial");
   }
 }
+
