@@ -26,7 +26,6 @@ header {
   border-bottom: 1px solid #575757;
 }
 
-
 .tab-navs li {
   list-style: none;
   text-align: center;
@@ -42,14 +41,15 @@ header {
   justify-content: space-evenly;
 }
 
-
 ul.tab-navs {
   padding-inline-start: 0 !important;
 }
-.nav-tab.tab-one:hover, .nav-tab.tab-two {
+.nav-tab.tab-one:hover,
+.nav-tab.tab-two {
   transition: 0.5s background-color, 0.5s color;
 }
-.nav-tab.tab-one:hover, .nav-tab.tab-two:hover {
+.nav-tab.tab-one:hover,
+.nav-tab.tab-two:hover {
   background-color: #32383e !important;
   color: #f8f9fa;
 }
@@ -83,7 +83,7 @@ ul.tab-navs {
   color: #28b7e6;
 }
 .main_temp_unit {
-  font-size: 14px !important;
+  font-size: 14px;
 }
 .main_data {
   display: flex;
@@ -125,6 +125,10 @@ ul.tab-navs {
   font-size: 25px;
   margin-right: 10px;
 }
+
+.row.weather_data {
+  margin: 0;
+}
 .sec_data .fa.fa-tint {
   color: #28b7e6;
   margin: 5px 10px;
@@ -142,9 +146,6 @@ ul.tab-navs {
 .table th {
   text-align: center;
 }
-
-
-
 
 .last_updated .t_date {
   display: inline !important;
@@ -221,7 +222,7 @@ li.list-group-item.list-group-item-dark {
   font-size: 15px;
 }
 .list-group-item {
-  padding: .15rem 1.25rem;
+  padding: 0.15rem 1.25rem;
   cursor: pointer;
 }
 /** Responsive View Stylesheets **/
@@ -245,13 +246,9 @@ li.list-group-item.list-group-item-dark {
     display: flex;
     justify-content: space-around;
   }
-  
+
   .forcast_temp {
     position: relative;
     left: 25px;
   }
-
 }
-
-
-

@@ -14,23 +14,22 @@ class Weather {
     this.id = id;
   }
 
-
   /**
    * Search by %like param
-   * 
+   *
    */
-
   async searchAccuracy() {
     const response = await fetch(
-      `${this.base}data/2.5/find?q=${this.city}&type=like&cnt=5&APPID=${this.apiKey}`
+      `${this.base}data/2.5/find?q=${this.city}&type=like&cnt=5&APPID=${
+      this.apiKey
+      }`
     );
     return await response.json();
   }
 
-
   /**
    * Get current weather data
-   *  
+   *
    */
 
   async getCurrentByID() {
@@ -44,20 +43,20 @@ class Weather {
 
   /**
    * Get forecast
-   * 
+   *
    */
   async getForecastByCity() {
     const response = await fetch(
-      `${this.base}data/2.5/forecast?id=${this.id}&units=${
-      this.unit
-      }&APPID=${this.apiKey}`
+      `${this.base}data/2.5/forecast?id=${this.id}&units=${this.unit}&APPID=${
+      this.apiKey
+      }`
     );
     return await response.json();
   }
 
   /**
    * Get current weather by coordinates
-   * 
+   *
    */
   getCoordinates() {
     return new Promise((res, rej) => {
@@ -78,9 +77,9 @@ class Weather {
   }
 
   /**
-   * 
-   * @param {string} city 
-   * @param {number} id 
+   *
+   * @param {string} city
+   * @param {number} id
    */
   changeLocation(city, id) {
     this.city = city;
@@ -88,8 +87,8 @@ class Weather {
   }
 
   /**
-   * 
-   * @param { string } unit 
+   *
+   * @param { string } unit
    */
   changeUnit(unit) {
     this.unit = unit;

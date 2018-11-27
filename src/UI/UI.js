@@ -7,63 +7,63 @@ class UI {
     this.sec_data = document.querySelector(".sec_data");
     this.mainSearch = document.querySelector("#mainSearch");
     this.main_temp = document.querySelector(".temp_wrapper");
-    this.accSearch = document.querySelector('.accurate_search');
+    this.accSearch = document.querySelector(".accurate_search");
     this.details = document.querySelector(".details .table tbody");
   }
 
-
   /**
    * Get metric/imperial units
-   * 
+   *
    */
   unitSign(str) {
     if (api.unit === "imperial") return ["mi/h", "°F"];
     if (api.unit === "metric") return ["m/sec", "°C"];
   }
 
-
   /**
    * Unix Timestamp
-   * @param {number} mils 
+   * @param {number} mils
    * @param {boolean} dateTime (false - get only time, true - get only date)
-   * 
+   *
    */
   timeStamp(mils, dateTime) {
     const time = new Date(mils * 1000);
     if (dateTime === true) {
       return `<span class="t_date">${time.toDateString()}`;
-    }
-    else if (dateTime === false) {
+    } else if (dateTime === false) {
       return `<span class="t_time">${time.toLocaleTimeString()}`;
     }
     return `<span class="t_date">${time.toDateString()}</span> <span class="t_time">${time.toLocaleTimeString()}</span>`;
   }
 
-
   /**
-   * 
-   * @param {json data} data 
+   *
+   * @param {json data} data
    */
   searchAccurate(data) {
     const resData = [data];
     this.accSearch.style.display = "block";
     resData.map(el => {
       if (el.cod === "400") {
-        this.accSearch.innerHTML = `<li class="list-group-item list-group-item-dark">${el.message}</li>`
+        this.accSearch.innerHTML = `<li class="list-group-item list-group-item-dark">${
+          el.message
+          }</li>`;
         //setTimeout(() => this.accSearch.style.display = "none", 2000);
       } else {
-        this.accSearch.innerHTML = '';
+        this.accSearch.innerHTML = "";
         el.list.forEach(result => {
-          this.accSearch.innerHTML += `<li class="search_autocomplete list-group-item list-group-item-dark">${result.name}, ${result.sys.country}, ${result.id}</li>`
-          const elements = document.querySelectorAll('.search_autocomplete');
+          this.accSearch.innerHTML += `<li class="search_autocomplete list-group-item list-group-item-dark">${
+            result.name
+            }, ${result.sys.country}, ${result.id}</li>`;
+          const elements = document.querySelectorAll(".search_autocomplete");
           elements.forEach(item => {
-            item.addEventListener('mouseover', (e) => {
+            item.addEventListener("mouseover", e => {
               const self = e.target.innerHTML;
-              this.mainSearch.value = `${self}`
+              this.mainSearch.value = `${self}`;
             });
-            item.addEventListener('click', (e) => {
+            item.addEventListener("click", e => {
               const self = e.target.innerHTML;
-              this.mainSearch.value = `${self}`
+              this.mainSearch.value = `${self}`;
               this.accSearch.style.display = "none";
             });
           });
@@ -72,11 +72,9 @@ class UI {
     });
   }
 
-
-
   /**
-   * @param {json data} data 
-   * 
+   * @param {json data} data
+   *
    * Show current temp
    */
   showCurrent(data) {
@@ -105,6 +103,7 @@ class UI {
       <span class="main_temp_unit">${this.unitSign()[1]}</span></span>  
       </div>
     `;
+      // Show foirecast list details
       this.sec_data.innerHTML += `<i class="fa fa-tint"></i>${item.main.humidity}%`;
       this.details.innerHTML = `
         <tr>
@@ -135,11 +134,9 @@ class UI {
     });
   }
 
-
-
   /**
-   * @param {json data} data 
-   * 
+   * @param {json data} data
+   *
    * Show weather forecast
    */
   showForecast(data) {
@@ -153,16 +150,23 @@ class UI {
     // Add titles and city/country
     this.main_temp.innerHTML = `<h3>5 Day</h3>`;
     this.sec_data.innerHTML = `<h5>3 Hour Forecast</h5>`;
-    objData.map(item => (this.city.innerHTML = `${item.city.name}, ${item.city.country}`));
+    objData.map(
+      item => (this.city.innerHTML = `${item.city.name}, ${item.city.country}`)
+    );
 
     // Get hourly list
     const dataList = objData.map(el => el.list);
     dataList.forEach(arr => {
       arr.forEach((item, i) => {
         const icon = item.weather.map(i => `<img src='//openweathermap.org/img/w/${i.icon}.png'>`);
-        this.details.innerHTML += `<tr>
+        this.details.innerHTML += `
+        <tr>
         <th class="main-row" scope="row">
-        <span class="forecast_time">${i % 8 === 0 ? this.timeStamp(item.dt, true) : this.timeStamp(item.dt, false)}</span>
+        <span class="forecast_time">${
+          i % 8 === 0
+            ? this.timeStamp(item.dt, true)
+            : this.timeStamp(item.dt, false)
+          }</span>
         ${icon}
         <span class="forecast_desc">${item.weather.map(i => i.description)}</span>
         </th>
@@ -176,13 +180,12 @@ class UI {
       </tr>`;
       });
     });
-
   }
 
   /**
-     * Error popups
-     * 
-     */
+   * Error popups
+   *
+   */
   popErrs() {
     const message = document.querySelector(".city_err");
     message.style.display = "block";

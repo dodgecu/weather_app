@@ -6,24 +6,37 @@ import { api } from "./Api/Api";
 import { ui } from "./UI/UI";
 
 // Load event listeners
-document.addEventListener("DOMContentLoaded", loadWeather);
-document.getElementById("citySearch").addEventListener("submit", getWeatherBySearch);
-document.querySelector("#btn").addEventListener("click", toggleState);
-document.querySelector(".currLocation").addEventListener("click", changeGeoLocation);
-document.querySelector(".link1").addEventListener("click", currTabWeather);
-document.querySelector(".link2").addEventListener("click", tabForecast);
-document.getElementById("mainSearch").addEventListener('keyup', accurateSearch);
+document
+  .addEventListener("DOMContentLoaded", loadWeather);
+document
+  .getElementById("mainSearch")
+  .addEventListener("keyup", accurateSearch);
+document
+  .getElementById("citySearch")
+  .addEventListener("submit", getWeatherBySearch);
+document
+  .querySelector("#btn")
+  .addEventListener("click", toggleState);
+document
+  .querySelector(".currLocation")
+  .addEventListener("click", changeGeoLocation);
+document
+  .querySelector(".link1")
+  .addEventListener("click", currTabWeather);
+document
+  .querySelector(".link2")
+  .addEventListener("click", tabForecast);
 
 
 // Get accurate search results/ pass them to main search
 function accurateSearch() {
   const city = document.getElementById("mainSearch").value;
   api.changeLocation(city, api.id);
-  api.searchAccuracy()
+  api
+    .searchAccuracy()
     .then(res => ui.searchAccurate(res))
-    .catch(err => console.error(err))
-};
-
+    .catch(err => console.error(err));
+}
 
 // Load current weather by tabs
 function currTabWeather() {
@@ -45,14 +58,18 @@ function tabForecast() {
 function getWeatherBySearch(e) {
   e.preventDefault();
   const inputData = document.getElementById("mainSearch").value;
-  const cityId = inputData.split(' ').filter((item, _, self) => item === self[self.length - 1]);
+  const cityId = inputData
+    .split(" ")
+    .filter((item, _, self) => item === self[self.length - 1]);
   const setId = parseInt(cityId);
   if (inputData !== "") {
     api.changeLocation(api.city, setId);
     api
       .getCurrentByID()
       .then(res => {
-        res.cod === "400" || res.cod === "404" ? ui.popErrs() : ui.showCurrent(res);
+        res.cod === "400" || res.cod === "404"
+          ? ui.popErrs()
+          : ui.showCurrent(res);
       })
       .catch(err => console.log(err));
   } else {
@@ -94,4 +111,3 @@ function toggleState(e) {
     api.changeUnit("imperial");
   }
 }
-
