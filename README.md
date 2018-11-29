@@ -1,4 +1,4 @@
-# weather_widget
+# weather_app
 
 Weather data supplied by [openweathermap.org]
 
