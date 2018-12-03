@@ -15,7 +15,7 @@ class UI {
    * Get metric/imperial units
    *
    */
-  unitSign(str) {
+  unitSign() {
     if (api.unit === "imperial") return ["mi/h", "°F"];
     if (api.unit === "metric") return ["m/sec", "°C"];
   }
