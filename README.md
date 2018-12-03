@@ -10,8 +10,8 @@ App [demo]
 ### Setup
 
 ```
-$ git clone https://github.com/dodgecu/weather_widget.git
-$ cd weather_widget
+$ git clone https://github.com/dodgecu/weather_app.git
+$ cd weather_app
 $ npm install
 $ npm start
 
