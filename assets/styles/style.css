@@ -11,10 +11,15 @@ body {
 
 a {
   color: #f8f9fa;
+  text-decoration: none !important;
 }
 a:hover {
   color: #c0c0c0;
 }
+.weather_logo a:hover {
+  color: #f8f9fa;
+}
+
 .tagline {
   font-size: 18px;
 }
