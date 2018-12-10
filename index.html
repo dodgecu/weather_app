@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous" />
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+  <link rel="stylesheet" type="text/css" href="assets/styles/style.css" />
+  <title>Weather</title>
+</head>
+
+<body>
+
+
+  <!-- Header -->
+
+  <header class="navbar navbar-expand-lg container mt-3">
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
+      <h1 id="logo" class="weather_logo"><a href ="/">Weather</a></h1>
+      <i class="tagline">openweathermap.org</i>
+      <!--<img src=".assets/img/logo.png" />-->
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-5">
+      <form id="citySearch" class="form-inline my-2 my-lg-0" autocomplete="off">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="mainSearch" />
+        <ul class="accurate_search list-group"></ul>
+        <button class="btnSubmit btn btn-outline-light my-2 my-sm-0" type="submit">
+          Find City
+        </button>
+        <div class="city_err">Nothing found!</div>
+      </form>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-lg-3">
+      <button type="button" class="currLocation btn btn-link">
+        <i class="fa fa-location-arrow"></i>Current Location
+      </button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-lg-1">
+      <input type="button" id="btn" value="&#8451;" class="metric btn btn-outline-light btn-block" />
+    </div>
+  </header>
+
+  <!-- Body Content -->
+
+  <div class="content">
+    <h2 class="city text-center mt-3 mb-3"></h2>
+    <div class="row">
+      <div class="main_data col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-3 pb-1">
+        <div class="icon_desc"></div>
+        <div class="temp_wrapper"></div>
+      </div>
+      <div class="sec_data col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-2"></div>
+      <div class="details container mt-5">
+        <table class="table table-striped table-dark">
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-2 mb-2">
+      <ul class="tab-navs">
+        <li class="nav-tab tab-one mt-2">
+          <a class="tab-link link1 active" id="tab-one">Today</a>
+        </li>
+        <li class="nav-tab tab-two mt-2">
+          <a class="tab-link link2" id="tab-two">5 day / 3 hour Forecast</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <footer class="page-footer font-small blue pt-4">
+      <!-- Footer Links -->
+      <div class="container-fluid text-center text-md-left">
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2018 Copyright:
+          <a href="https://mdbootstrap.com/education/bootstrap/"> By DodgeCU</a>
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"></script>
+    <script src="build/app.bundle.js"></script>
+</body>
+
+</html>
