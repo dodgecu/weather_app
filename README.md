@@ -18,4 +18,4 @@ $ npm start
 ```
 
  [openweathermap.org]: <https://openweathermap.org/>
- [demo]: <http://biz211.inmotionhosting.com/~fading8/weather/>
+ [demo]: <https://dodgecu.github.io/weather_app/>
