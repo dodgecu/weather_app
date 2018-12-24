@@ -50,13 +50,29 @@ ul.tab-navs {
   padding-inline-start: 0 !important;
 }
 .nav-tab.tab-one:hover,
-.nav-tab.tab-two {
+.nav-tab.tab-two,
+.days-tab li.nav-tab,
+.days-tab li.nav-tab:hover {
   transition: 0.5s background-color, 0.5s color;
 }
 .nav-tab.tab-one:hover,
-.nav-tab.tab-two:hover {
-  background-color: #32383e !important;
+.nav-tab.tab-two:hover,
+.days-tab li.nav-tab:hover {
+  background-color: #32383e;
   color: #f8f9fa;
+}
+
+.days-tab .nav-tab {
+  width: 220px;
+  max-width: 100%;
+  font-size: 15px;
+}
+.days-tab {
+  display: none;
+}
+
+.days-tab .nav-tab .tab-link {
+  padding: 8px 15px;
 }
 
 .tab-link {
@@ -64,6 +80,10 @@ ul.tab-navs {
   padding: 10px 20px;
 }
 
+.days-tab .nav-tab.mt-2.active {
+  background-color: #32383e;
+  color: #f8f9fa;
+}
 /**************************** Current Weather *********************/
 .currLocation i {
   margin: 0 5px;
@@ -152,9 +172,6 @@ ul.tab-navs {
   text-align: center;
 }
 
-.last_updated .t_date {
-  display: inline !important;
-}
 footer.page-footer {
   border-top: 1px solid #575757;
 }
@@ -230,6 +247,8 @@ li.list-group-item.list-group-item-dark {
   padding: 0.15rem 1.25rem;
   cursor: pointer;
 }
+
+
 /** Responsive View Stylesheets **/
 @media screen and (max-device-width: 573px) {
   .btnSubmit {
@@ -241,9 +260,7 @@ li.list-group-item.list-group-item-dark {
     display: flex;
     flex-direction: column;
   }
-  .forecast_time span.t_time {
-    font-size: 18px;
-  }
+
 }
 
 @media screen and (min-device-width: 992px) {

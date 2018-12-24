@@ -9,7 +9,15 @@ class UI {
     this.main_temp = document.querySelector(".temp_wrapper");
     this.accSearch = document.querySelector(".accurate_search");
     this.details = document.querySelector(".details .table tbody");
+    this.days = {
+      first: document.querySelector(".first_day"),
+      scnd: document.querySelector(".scnd_day"),
+      thrd: document.querySelector(".thrd_day"),
+      frth: document.querySelector(".frth_day"),
+      ffth: document.querySelector(".ffth_day")
+    };
   }
+
 
   /**
    * Get metric/imperial units
@@ -20,6 +28,7 @@ class UI {
     if (api.unit === "metric") return ["m/sec", "°C"];
   }
 
+
   /**
    * Unix Timestamp
    * @param {number} mils
@@ -28,13 +37,22 @@ class UI {
    */
   timeStamp(mils, dateTime) {
     const time = new Date(mils * 1000);
-    if (dateTime === true) {
-      return `<span class="t_date">${time.toDateString()}`;
-    } else if (dateTime === false) {
-      return `<span class="t_time">${time.toLocaleTimeString()}`;
+    const getTime = time
+      .toUTCString()
+      .split(" ")
+      .filter((_, i) => i === 4);
+    const getDate = time
+      .toUTCString()
+      .split(" ")
+      .slice(0, 4);
+    if (dateTime) {
+      return `${getDate.join(" ")}`;
     }
-    return `<span class="t_date">${time.toDateString()}</span> <span class="t_time">${time.toLocaleTimeString()}</span>`;
+    if (!dateTime) {
+      return `${getTime.toString()}`;
+    }
   }
+
 
   /**
    *
@@ -48,7 +66,6 @@ class UI {
         this.accSearch.innerHTML = `<li class="list-group-item list-group-item-dark">${
           el.message
           }</li>`;
-        //setTimeout(() => this.accSearch.style.display = "none", 2000);
       } else {
         this.accSearch.innerHTML = "";
         el.list.forEach(result => {
@@ -72,25 +89,26 @@ class UI {
     });
   }
 
+
   /**
    * @param {json data} data
    *
    * Show current temp
    */
   showCurrent(data) {
-    // Wrap json up in array. No need to encapsulate each object entry in array (Object.entries method) Not sure if this is a correct way to do this.
     const objData = [data];
-
-    // Show weather conditions data
     const weather = objData.map(el => el.weather);
+    document.querySelector(".days-tab").style.display = "none";
     weather.map(el => {
       el.map(item => {
-        this.icon.innerHTML = `<img src='//openweathermap.org/img/w/${item.icon}.png'>`;
-        this.sec_data.innerHTML = `<span class="main_desc">${item.main}</span> / <span class="sec_desc">${item.description}</span>`;
+        this.icon.innerHTML = `<img src='//openweathermap.org/img/w/${
+          item.icon
+          }.png'>`;
+        this.sec_data.innerHTML = `<span class="main_desc">${
+          item.main
+          }</span> / <span class="sec_desc">${item.description}</span>`;
       });
     });
-
-    // Show main temperatures
     objData.map(item => {
       this.city.innerHTML = `${item.name}, ${item.sys.country}`;
       this.main_temp.innerHTML = `
@@ -103,8 +121,9 @@ class UI {
       <span class="main_temp_unit">${this.unitSign()[1]}</span></span>  
       </div>
     `;
-      // Show foirecast list details
-      this.sec_data.innerHTML += `<i class="fa fa-tint"></i>${item.main.humidity}%`;
+      this.sec_data.innerHTML += `<i class="fa fa-tint"></i>${
+        item.main.humidity
+        }%`;
       this.details.innerHTML = `
         <tr>
           <th scope="row">Clouds:</th>
@@ -134,39 +153,87 @@ class UI {
     });
   }
 
+
   /**
    * @param {json data} data
    *
    * Show weather forecast
    */
   showForecast(data) {
-    // Wrap json up in array. No need to encapsulate each object entry in array (Object.entries method) Not sure if this is a correct way to do this.
     const objData = [data];
-
-    // Clear the page from current weather data
     this.icon.innerHTML = "";
     this.details.innerHTML = "";
-
-    // Add titles and city/country
     this.main_temp.innerHTML = `<h3>5 Day</h3>`;
     this.sec_data.innerHTML = `<h5>3 Hour Forecast</h5>`;
+    document.querySelector(".days-tab").style.display = "flex";
     objData.map(
-      item => (this.city.innerHTML = `${item.city.name}, ${item.city.country}`)
+      location =>
+        (this.city.innerHTML = `${location.city.name}, ${
+          location.city.country
+          }`)
     );
+    const weatherList = objData.map(date => date.list);
+    const dayCount = weatherList[0]
+      .map(element => element.dt_txt)
+      .map(time => time.split(" ").filter((_, i) => i !== 1))
+      .reduce((acc, iterator) => acc.concat(iterator), [])
+      .reduce((prev, curr) => {
+        prev[curr] ? prev[curr]++ : (prev[curr] = 1);
+        return prev;
+      }, {});
+    const countedDays = Object.values(dayCount);
+    const today = weatherList[0].slice(0, countedDays[0]),
+      tomorrow = weatherList[0].slice(today.length, today.length + countedDays[1]),
+      thirdDay = weatherList[0].slice(tomorrow.length + today.length, tomorrow.length + today.length + countedDays[2]),
+      fourthDay = weatherList[0].slice(tomorrow.length * 2 + today.length, tomorrow.length * 2 + today.length + countedDays[3]),
+      fifthDay = weatherList[0].slice(tomorrow.length * 3 + today.length, tomorrow.length * 3 + today.length + countedDays[4]),
+      sixthDay = weatherList[0].slice(tomorrow.length * 4 + today.length, tomorrow.length * 4 + today.length + countedDays[5]);
 
-    // Get hourly list
-    const dataList = objData.map(el => el.list);
-    dataList.forEach(arr => {
-      arr.forEach((item, i) => {
-        const icon = item.weather.map(i => `<img src='//openweathermap.org/img/w/${i.icon}.png'>`);
-        this.details.innerHTML += `
+    tomorrow.map(day => this.days.first.textContent = this.timeStamp(day.dt, true));
+    thirdDay.map(day => this.days.scnd.textContent = this.timeStamp(day.dt, true));
+    fourthDay.map(day => this.days.thrd.textContent = this.timeStamp(day.dt, true));
+    fifthDay.map(day => this.days.frth.textContent = this.timeStamp(day.dt, true));
+    sixthDay.map(day => this.days.ffth.textContent = this.timeStamp(day.dt, true));
+
+    this.renderForecast(today);
+    this.days.first.addEventListener("click", () => {
+      this.renderForecast(tomorrow);
+      this.days.first.parentNode.classList.add('active');
+    });
+    this.days.scnd.addEventListener("click", () => {
+      this.renderForecast(thirdDay);
+      this.days.scnd.parentNode.classList.add('active');
+    });
+    this.days.thrd.addEventListener("click", () => {
+      this.renderForecast(fourthDay);
+      this.days.thrd.parentNode.classList.add('active');
+    });
+    this.days.frth.addEventListener("click", () => {
+      this.renderForecast(fifthDay);
+      this.days.frth.parentNode.classList.add('active');
+    });
+    this.days.ffth.addEventListener("click", () => {
+      this.renderForecast(sixthDay);
+      this.days.ffth.parentNode.classList.add('active');
+    });
+  }
+
+
+  /**
+   * @param {array} foreCastData
+   *
+   */
+  renderForecast(foreCastData) {
+    this.details.innerHTML = "";
+    for (let node in this.days) {
+      this.days[node].parentNode.classList.remove("active");
+    }
+    foreCastData.forEach(item => {
+      const icon = item.weather.map(i => `<img src='//openweathermap.org/img/w/${i.icon}.png'>`);
+      this.details.innerHTML += `
         <tr>
         <th class="main-row" scope="row">
-        <span class="forecast_time">${
-          i % 8 === 0
-            ? this.timeStamp(item.dt, true)
-            : this.timeStamp(item.dt, false)
-          }</span>
+        <span class="forecast_time">${this.timeStamp(item.dt, false)}</span>
         ${icon}
         <span class="forecast_desc">${item.weather.map(i => i.description)}</span>
         </th>
@@ -178,16 +245,16 @@ class UI {
           <span class="forecast_press"><i cass="fa fa-tachometer"></i> ${Math.floor(item.main.pressure)}hPa</span>
         </td>
       </tr>`;
-      });
     });
   }
 
+
   /**
    * Error popups
-   *
+   *,
    */
   popErrs() {
-    const message = document.querySelector(".city_err");
+    const message = document.querySelector(".city_e");
     message.style.display = "block";
     setTimeout(() => (message.style.display = "none"), 2000);
   }
