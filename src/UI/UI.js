@@ -254,7 +254,7 @@ class UI {
    *,
    */
   popErrs() {
-    const message = document.querySelector(".city_e");
+    const message = document.querySelector(".city_err");
     message.style.display = "block";
     setTimeout(() => (message.style.display = "none"), 2000);
   }

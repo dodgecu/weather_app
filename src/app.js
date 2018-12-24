@@ -91,7 +91,6 @@ function toggleState(e) {
   const self = e.target;
   self.classList.toggle("metric");
   self.classList.toggle("imperial");
-
   if (self.classList.contains("metric")) {
     self.value = "°C";
     api.changeUnit("metric");
@@ -100,4 +99,5 @@ function toggleState(e) {
     self.value = "°F";
     api.changeUnit("imperial");
   }
+
 }
