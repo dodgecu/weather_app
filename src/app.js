@@ -2,8 +2,23 @@
  * Main APP js
  *
  */
-import { api } from "./Api/Api";
+import Weather from "./Api/Api";
+import { storage } from "./Storage/Storage";
 import { ui } from "./UI/UI";
+
+
+
+// Local Storage, unit data
+const location = storage.getLocationData();
+location.unit === "metric"
+  ? document.getElementById('btn-unit').value = "°C"
+  : document.getElementById('btn-unit').value = "°F";
+
+
+// Instantiate weather api
+const api = new Weather(location.city, location.unit, location.id);
+
+
 
 // Load event listeners
 document.addEventListener("DOMContentLoaded", loadWeather);
@@ -11,7 +26,7 @@ document.getElementById("mainSearch").addEventListener("keyup", accurateSearch);
 document
   .getElementById("citySearch")
   .addEventListener("submit", getWeatherBySearch);
-document.querySelector("#btn").addEventListener("click", toggleState);
+document.querySelector("#btn-unit").addEventListener("click", toggleState);
 document
   .querySelector(".currLocation")
   .addEventListener("click", changeGeoLocation);
@@ -22,6 +37,7 @@ document.querySelector(".link2").addEventListener("click", tabForecast);
 function accurateSearch() {
   const city = document.getElementById("mainSearch").value;
   api.changeLocation(city, api.id);
+  storage.setLocationData(city, api.id, location.unit);
   api
     .searchAccuracy()
     .then(res => ui.searchAccurate(res))
@@ -54,6 +70,7 @@ function getWeatherBySearch(e) {
   const setId = parseInt(cityId);
   if (inputData !== "") {
     api.changeLocation(api.city, setId);
+    storage.setLocationData(api.city, setId, location.unit);
     api
       .getCurrentByID()
       .then(res => {
@@ -73,6 +90,7 @@ function changeGeoLocation() {
     .getByCoordinates()
     .then(res => {
       api.changeLocation(res.name, res.id);
+      storage.setLocationData(res.name, res.id, location.unit);
       ui.showCurrent(res);
     })
     .catch(err => console.error(err));
@@ -86,18 +104,24 @@ function loadWeather() {
     .catch(err => console.error(err));
 }
 
+
 // Temperature (UNIT) button
-function toggleState(e) {
-  const self = e.target;
-  self.classList.toggle("metric");
-  self.classList.toggle("imperial");
-  if (self.classList.contains("metric")) {
-    self.value = "°C";
-    api.changeUnit("metric");
-  }
-  if (self.classList.contains("imperial")) {
-    self.value = "°F";
-    api.changeUnit("imperial");
+function toggleState() {
+  if (location.unit === "imperial") {
+    storage.setLocationData(location.city, location.id, "metric");
+    document.getElementById('btn-unit').value = "°C";
+    setTimeout(() => window.location.reload(), 500);
   }
 
+  if (location.unit === "metric") {
+    storage.setLocationData(location.city, location.id, "imperial");
+    document.getElementById('btn-unit').value = "°F";
+    setTimeout(() => window.location.reload(), 500);
+  }
 }
+
+window.onload = function () {
+  setTimeout(() => document.querySelector('#preloader').style.display = 'none', 2000);
+};
+
+

@@ -1,4 +1,5 @@
-import { api } from "../Api/Api";
+import { storage } from "../Storage/Storage";
+const locData = storage.getLocationData();
 
 class UI {
   constructor() {
@@ -24,8 +25,8 @@ class UI {
    *
    */
   unitSign() {
-    if (api.unit === "imperial") return ["mi/h", "°F"];
-    if (api.unit === "metric") return ["m/sec", "°C"];
+    if (locData.unit === "imperial") return ["mi/h", "°F"];
+    if (locData.unit === "metric") return ["m/sec", "°C"];
   }
 
 
@@ -63,15 +64,11 @@ class UI {
     this.accSearch.style.display = "block";
     resData.map(el => {
       if (el.cod === "400") {
-        this.accSearch.innerHTML = `<li class="list-group-item list-group-item-dark">${
-          el.message
-          }</li>`;
+        this.accSearch.innerHTML = `<li class="list-group-item list-group-item-dark">${el.message}</li>`;
       } else {
         this.accSearch.innerHTML = "";
         el.list.forEach(result => {
-          this.accSearch.innerHTML += `<li class="search_autocomplete list-group-item list-group-item-dark">${
-            result.name
-            }, ${result.sys.country}, ${result.id}</li>`;
+          this.accSearch.innerHTML += `<li class="search_autocomplete list-group-item list-group-item-dark">${result.name}, ${result.sys.country}, ${result.id}</li>`;
           const elements = document.querySelectorAll(".search_autocomplete");
           elements.forEach(item => {
             item.addEventListener("mouseover", e => {
@@ -101,12 +98,8 @@ class UI {
     document.querySelector(".days-tab").style.display = "none";
     weather.map(el => {
       el.map(item => {
-        this.icon.innerHTML = `<img src='//openweathermap.org/img/w/${
-          item.icon
-          }.png'>`;
-        this.sec_data.innerHTML = `<span class="main_desc">${
-          item.main
-          }</span> / <span class="sec_desc">${item.description}</span>`;
+        this.icon.innerHTML = `<img src='//openweathermap.org/img/w/${item.icon}.png'>`;
+        this.sec_data.innerHTML = `<span class="main_desc">${item.main}</span> / <span class="sec_desc">${item.description}</span>`;
       });
     });
     objData.map(item => {
@@ -166,12 +159,7 @@ class UI {
     this.main_temp.innerHTML = `<h3>5 Day</h3>`;
     this.sec_data.innerHTML = `<h5>3 Hour Forecast</h5>`;
     document.querySelector(".days-tab").style.display = "flex";
-    objData.map(
-      location =>
-        (this.city.innerHTML = `${location.city.name}, ${
-          location.city.country
-          }`)
-    );
+    objData.map(location => (this.city.innerHTML = `${location.city.name}, ${location.city.country}`));
     const weatherList = objData.map(date => date.list);
     const dayCount = weatherList[0]
       .map(element => element.dt_txt)
@@ -186,34 +174,34 @@ class UI {
       tomorrow = weatherList[0].slice(today.length, today.length + countedDays[1]),
       thirdDay = weatherList[0].slice(tomorrow.length + today.length, tomorrow.length + today.length + countedDays[2]),
       fourthDay = weatherList[0].slice(tomorrow.length * 2 + today.length, tomorrow.length * 2 + today.length + countedDays[3]),
-      fifthDay = weatherList[0].slice(tomorrow.length * 3 + today.length, tomorrow.length * 3 + today.length + countedDays[4]),
-      sixthDay = weatherList[0].slice(tomorrow.length * 4 + today.length, tomorrow.length * 4 + today.length + countedDays[5]);
+      fifthDay = weatherList[0].slice(tomorrow.length * 3 + today.length, tomorrow.length * 3 + today.length + countedDays[4]);
+    //const sixthDay = weatherList[0].slice(tomorrow.length * 4 + today.length, tomorrow.length * 4 + today.length + countedDays[5]);
 
-    tomorrow.map(day => this.days.first.textContent = this.timeStamp(day.dt, true));
-    thirdDay.map(day => this.days.scnd.textContent = this.timeStamp(day.dt, true));
-    fourthDay.map(day => this.days.thrd.textContent = this.timeStamp(day.dt, true));
-    fifthDay.map(day => this.days.frth.textContent = this.timeStamp(day.dt, true));
-    sixthDay.map(day => this.days.ffth.textContent = this.timeStamp(day.dt, true));
+    today.map(day => this.days.first.textContent = this.timeStamp(day.dt, true));
+    tomorrow.map(day => this.days.scnd.textContent = this.timeStamp(day.dt, true));
+    thirdDay.map(day => this.days.thrd.textContent = this.timeStamp(day.dt, true));
+    fourthDay.map(day => this.days.frth.textContent = this.timeStamp(day.dt, true));
+    fifthDay.map(day => this.days.ffth.textContent = this.timeStamp(day.dt, true));
 
     this.renderForecast(today);
     this.days.first.addEventListener("click", () => {
-      this.renderForecast(tomorrow);
+      this.renderForecast(today);
       this.days.first.parentNode.classList.add('active');
     });
     this.days.scnd.addEventListener("click", () => {
-      this.renderForecast(thirdDay);
+      this.renderForecast(tomorrow);
       this.days.scnd.parentNode.classList.add('active');
     });
     this.days.thrd.addEventListener("click", () => {
-      this.renderForecast(fourthDay);
+      this.renderForecast(thirdDay);
       this.days.thrd.parentNode.classList.add('active');
     });
     this.days.frth.addEventListener("click", () => {
-      this.renderForecast(fifthDay);
+      this.renderForecast(fourthDay);
       this.days.frth.parentNode.classList.add('active');
     });
     this.days.ffth.addEventListener("click", () => {
-      this.renderForecast(sixthDay);
+      this.renderForecast(fifthDay);
       this.days.ffth.parentNode.classList.add('active');
     });
   }

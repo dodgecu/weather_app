@@ -94,5 +94,5 @@ class Weather {
     this.unit = unit;
   }
 }
+export default Weather;
 
-export const api = new Weather("London", "metric", 2643743);
